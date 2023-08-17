@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"; 
 
 
 const Login=()=>{
+    //Call the useHistory hook to get the history object
+    const history = useHistory();
     const [credentials, setCredentials]=useState({username:"",password:""})
 
     const handleChange=e=>{
@@ -17,7 +20,9 @@ const Login=()=>{
         e.preventDefault()
         axios.post('http://localhost:9000/api/login', credentials)
              .then(res=>{
-                console.log(res.data)
+                console.log(res.data.token)
+                localStorage.setItem('token', res.data.token)
+                 history.push('/friends')
              })
              .catch(err=>{
                 console.log(err)
